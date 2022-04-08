@@ -17,6 +17,7 @@ module.exports = class Note {
         // pos 48 on the piano roll ==> C4
         // based on this information we can deduce the octave and the note
         // negative modulos in Javascript works the same as the Java Impl
+        // this is pretty confusing when we have to deal with something like -1 mod 48
         const mod = (a, n) => {
             return ((a % n) + n) % n;
         }
@@ -29,16 +30,17 @@ module.exports = class Note {
 
         const {key, pos, len} = parsed_xml_list;
         let dist = key - roll_note_off;         
-        let d_oct = Math.floor (Math.abs (dist / (seq.length + 1)));
+        let d_oct = Math.floor (dist / seq.length); // signed
         
         let note = new Note(
             seq[mod(dist, seq.length)],
-            roll_octa_off + d_oct * (dist >= 0 ? 1 : -1) // ?
+            roll_octa_off + d_oct
         );
 
         note.pos = pos;
         note.duration = len;
-        note.__orig = key;
+        // note.__orig = key;
+        // note.__dist = d_oct;
 
         return note;
     }
