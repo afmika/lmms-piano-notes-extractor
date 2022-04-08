@@ -2,7 +2,7 @@ const cheerio = require ('cheerio');
 const fs = require ('fs');
 
 const requirement = {
-    version : '1.2.2'
+    version : '1.2' // handles 1.2.X
 };
 
 function makeAllIntegers (raw_note_json) {
@@ -16,8 +16,8 @@ module.exports = function mmpLoadMetaDatas (filename) {
     const $ = cheerio.load(xml_bin.toString());
     
     const version = $('lmms-project').attr ('creatorversion');
-    if (requirement.version != version)
-        throw Error ('Required version "' + requirement.version + '" found "' + version + '" instead.');
+    if (!version || !version.startsWith(requirement.version))
+        throw Error ('Required version "' + requirement.version + '.X" found "' + version + '" instead.');
 
     const patterns = [];
     $('pattern').each ((i, elem) => {

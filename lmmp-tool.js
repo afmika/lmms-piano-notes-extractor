@@ -4,7 +4,7 @@ const {fixedModulo, roundTwo} = require ('./classes/Tools');
 const [ , , filename, mod] = process.argv;
 
 
-const mods = ['--coord', '--json', '--delta', ''];
+const mods = ['--coord', '--json', '--debug', '--delta', ''];
 
 const helpInvalid = mod => {
     if (!mods.includes (mod) && mod != undefined) {
@@ -41,16 +41,19 @@ function main () {
     const musicScore = new MusicScore ();
     const tracks = musicScore.process (filename);
     const idOperationSerial = class_obj => JSON.parse (JSON.stringify(class_obj));
-    if (!mod || mod == '' || mod == '--json') {
+    if (mod == '--debug') {
         // Dump a stringfied MusicScore object
         console.log(tracks.map(notes => notes.map (idOperationSerial)));
+    } else if (mod == undefined || mod == '' || mod == '--json') {
+        // Dump a list of points
+        console.log(JSON.stringify(tracks));
     } else if (mod == '--coord') {
         // Dump a list of points
-        console.log(makePointsFrom (tracks));
+        console.log(JSON.stringify(makePointsFrom (tracks)));
     } else {
         // Dump a list of deltas
         console.log(
-            makePointsFrom (tracks).map (constructRelativeHeightsFrom)
+            JSON.stringify(makePointsFrom (tracks).map (constructRelativeHeightsFrom))
         );
     }
 }
