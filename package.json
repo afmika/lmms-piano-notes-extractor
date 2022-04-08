@@ -1,0 +1,15 @@
+{
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.10"
+  },
+  "name": "lmmp-project-piano-roll-extractor",
+  "version": "1.0.0",
+  "description": "LMMP XML PROJECT PIANO ROLL EXTRACTOR",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "npm test"
+  },
+  "author": "afmika",
+  "license": "MIT"
+}
