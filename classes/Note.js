@@ -1,3 +1,5 @@
+const {fixedModulo, roundTwo} = require ('./Tools');
+
 // constants
 const sequence = [
     'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'
@@ -17,15 +19,6 @@ const base_ratio = Math.pow (2, 1 / note_per_oct);
 // based on this information we can deduce the octave and the note
 const roll_note_off = 48;
 const roll_octa_off = 4;
-
-// negative modulos in Javascript is pretty confusing
-// when we have to deal with something like -1 mod 48
-const mod = (a, n) => ((a % n) + n) % n;
-const roundTwo = n => {
-    let d = 100;
-    return Math.round (n * d) / d;
-};
-
 
 module.exports = class Note {
     constructor (note, octave) {
@@ -48,7 +41,7 @@ module.exports = class Note {
         const dist = key - roll_note_off;
         const d_oct = Math.floor (dist / note_per_oct); // signed
         
-        const note_str = sequence [mod(dist, note_per_oct)];
+        const note_str = sequence [fixedModulo (dist, note_per_oct)];
         const octave = roll_octa_off + d_oct;
 
         const note = new Note (note_str, octave);
