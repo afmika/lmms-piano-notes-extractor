@@ -1,4 +1,5 @@
-# lmmp-project-piano-roll-extractor
+# lmms-piano-notes-extractor
+
 LMMS Project Piano roll extractor
 
 ## Usage
