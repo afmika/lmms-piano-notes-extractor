@@ -22,7 +22,7 @@ const roll_octa_off = 4;
 // when we have to deal with something like -1 mod 48
 const mod = (a, n) => ((a % n) + n) % n;
 const roundTwo = n => {
-    let d = 10000;
+    let d = 100;
     return Math.round (n * d) / d;
 };
 
