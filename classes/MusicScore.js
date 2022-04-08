@@ -3,12 +3,16 @@ const Note = require ('./Note');
 
 module.exports = class MusicScore {
     constructor () {
-        this.notes = [];
+        this.tracks = [];
     }
 
     process (filename) {
-        const notes = mmpLoadMetaDatas (filename);
-        this.notes = notes.map (Note.deduceFrom);
-        return this.notes;
+        const patterns = mmpLoadMetaDatas (filename);
+        this.tracks = patterns.map (notes => notes.map(Note.deduceFrom));
+        return this.tracks;
+    }
+
+    each (fn) {
+        this.tracks.forEach (fn);
     }
 }

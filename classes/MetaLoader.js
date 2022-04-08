@@ -5,6 +5,12 @@ const requirement = {
     version : '1.2.2'
 };
 
+function makeAllIntegers (raw_note_json) {
+    for (let key in raw_note_json)
+        raw_note_json[key] = parseInt(raw_note_json[key]);
+    return raw_note_json;
+}
+
 module.exports = function mmpLoadMetaDatas (filename) {
     const xml_bin = fs.readFileSync (filename);
     const $ = cheerio.load(xml_bin.toString());
@@ -13,18 +19,18 @@ module.exports = function mmpLoadMetaDatas (filename) {
     if (requirement.version != version)
         throw Error ('Required version "' + requirement.version + '" found "' + version + '" instead.');
 
-    let notes = [];
-    $('note').each ((i, elem) => {
-        // [Note] Type [Object: null prototype]
-        //  it ensures the absolute emptiness of an object because it's not based
-        //  Ex: const obj = Object.create(null);
-        // obj[1] = 2; // ok
-        // obj.toString(); // not ok
-        notes[i] = $(elem).attr();
+    const patterns = [];
+    $('pattern').each ((i, elem) => {
+        const temp = $(elem).find ('note');
+        if (temp.length > 0) {
+            let arr = [];
+            $(temp).each ((j, elem) => {
+                const json = $(elem).attr();
+                arr.push (makeAllIntegers(json));
+            });
+            patterns.push (arr);
+        }
     });
-    return notes.map(note => {
-        for (let key in note)
-            note[key] = parseInt(note[key]);
-        return note;
-    });
+
+    return patterns;
 }
