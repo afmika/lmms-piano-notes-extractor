@@ -1,5 +1,5 @@
 const MusicScore = require ('./classes/MusicScore');
-const {fixedModulo, roundTwo} = require ('./classes/Tools');
+const {stringify, roundTwo} = require ('./classes/Tools');
 
 const [ , , filename, mod] = process.argv;
 
@@ -40,20 +40,20 @@ function main () {
         return;
     const musicScore = new MusicScore ();
     const tracks = musicScore.process (filename);
-    const idOperationSerial = class_obj => JSON.parse (JSON.stringify(class_obj));
     if (mod == '--debug') {
         // Dump a stringfied MusicScore object
-        console.log(tracks.map(notes => notes.map (idOperationSerial)));
+        const idOperationSerial = class_obj => JSON.parse (JSON.stringify(class_obj));
+        console.log(tracks.map(notes => notes.map (idOperationSerial)));cls
     } else if (mod == undefined || mod == '' || mod == '--json') {
         // Dump a list of points
-        console.log(JSON.stringify(tracks));
+        console.log(stringify(tracks));
     } else if (mod == '--coord') {
         // Dump a list of points
-        console.log(JSON.stringify(makePointsFrom (tracks)));
+        console.log(stringify(makePointsFrom (tracks)));
     } else {
         // Dump a list of deltas
         console.log(
-            JSON.stringify(makePointsFrom (tracks).map (constructRelativeHeightsFrom))
+            stringify(makePointsFrom (tracks).map (constructRelativeHeightsFrom))
         );
     }
 }

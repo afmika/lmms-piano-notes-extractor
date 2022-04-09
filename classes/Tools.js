@@ -5,5 +5,8 @@ module.exports = {
     roundTwo : n => {
         let d = 100;
         return Math.round (n * d) / d;
-    }
+    },
+
+    stringify : object => JSON.stringify (object, null, 4)
+ 
 };
