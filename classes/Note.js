@@ -25,6 +25,7 @@ module.exports = class Note {
         this.note = note || null;
         this.octave = octave || null;
         this.pos = 0;
+        this.freq = 0;
         this.duration = 0;
     }
 
@@ -68,5 +69,17 @@ module.exports = class Note {
         // According to Rule #2
         // note_N = R^N * base_freq
         return Math.pow (base_ratio, N) * base_freq;
+    }
+
+    /**
+     * @param {number} pos 
+     * @param {number} duration 
+     */
+    static silent (pos, duration) {
+        const note = new Note(null, null);
+        note.pos = pos;
+        note.duration = duration;
+        note.freq = 0;
+        return note;
     }
 }
